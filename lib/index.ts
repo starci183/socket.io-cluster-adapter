@@ -297,6 +297,15 @@ export class ClusterAdapter extends Adapter {
       message.nsp
     );
 
+    // check if sockets are present in the message
+    if (message?.data?.sockets) {
+      message.data.sockets = message.data.sockets.map((socket: any) => {
+          return {
+              ...socket,
+              data : JSON.parse(JSON.stringify(socket.data))
+          }})
+  }
+
     process.send(message, null, { swallowErrors: true }, ignoreError);
   }
 
